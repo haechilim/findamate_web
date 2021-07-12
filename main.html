@@ -5,26 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>find a mate</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styles.css">
 
     <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-    <div class="topContainer">
-        <div class="school">선린고등학교 2학년 5반</div>
-        <img class="settingButton" src="image/setting.png">
+    <div class="container">
+        <div class="topContainer">
+            <div class="school"></div>
+        </div>
+
+        <div class="profilesContainer">
+            <div id="myself" class="profileContainer">
+                <img class="profileImage">
+                <div class="nameContainer">
+                    <div class="name"></div>
+                    <img class="settingButton" src="images/setting.png">
+                </div>
+                <div class="statusMessage"></div>
+            </div>
+
+            <img class="vs" src="images/vs2.png">
+
+            <div id="mate" class="profileContainer">
+                <img class="profileImage">
+                <div class="name"></div>
+                <div class="statusMessage"></div>
+            </div>
+        </div>
+
+        <div class="pollContainer">
+            <div class="title">결과에 만족하나요?</div>
+
+            <div class="submitContainer">
+                <img src="images/agree.png" id="agree" class="submit">
+                <img src="images/disagree.png" id="disagree" class="submit">
+            </div>
+        </div>
     </div>
-
-    <div class="profileContainer">
-        <img class="profileImage" src="image/avatar/avatar01.png">
-        <div class="name">임준형</div>
-        <div class="statusMessage">내가 사라져 볼게 얍!</div>
-    </div>
-
-    <div class="responseContainer">
-        <div class="title">결과의 만족하는지 설문해주세요!</div>
-
-        <button id="agree" class="submit">만족해요!</button>
-        <button id="disagree" class="submit">다시해요!</button>
 </body>
 </html>

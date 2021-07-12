@@ -188,13 +188,13 @@ function queryDeleteFavorite(parameter, callback) {
 }
 
 function queryRounds(parameter, callback) {
-        var query = "select id, date_format(date, '%Y-%m-%d %H:%i:%S') as date from round where memberId = " + parameter.memberId + " order by id desc";
+        var query = "select id, agree, disagree, date_format(date, '%Y-%m-%d %H:%i:%S') as date from round where memberId = " + parameter.memberId + " order by id desc";
 
         execQuery(query, callback);
 }
 
 function queryAddRound(parameter, callback) {
-       var query = "insert into round(memberId) values(" + parameter.memberId + ")";
+       var query = "insert into round(memberId, agree, disagree) values(" + parameter.memberId + ", " + parameter.agree + ", " + parameter.disagree + ")";
 
         responseQuery(query, callback);
 }
@@ -384,6 +384,8 @@ function getRounds(response, parameter) {
 
                                 histories.push({
                                         id: round.id,
+                                        agree: round.agree,
+                                        disagree: round.disagree,
                                         date: round.date,
                                         couples: couples
                                 });
@@ -600,17 +602,17 @@ var server = http.createServer(function(request, response) {
 
     function content(error, data) {
             if(error) {
-                    response.writeHead(404, {
-                            "content-type": "text/plain; charset=utf-8"
-                    });
-                    response.end("File Not Found");
+                response.writeHead(404, {
+                        "content-type": "text/plain; charset=utf-8"
+                });
+                response.end("File Not Found");
             }
             else {
-                    response.writeHead(200, {
-                            "content-type": contentType + (isText(contentType) ? "; charset=utf-8" : ""),
-                            "cache-control": isText(contentType) ? "no-cache" : "max-age=31536000"
-                    });
-                    response.end(data);
+                response.writeHead(200, {
+                        "content-type": contentType + (isText(contentType) ? "; charset=utf-8" : ""),
+                        "cache-control": isText(contentType) ? "no-cache" : "max-age=31536000"
+                });
+                response.end(data);
             }
     }
 });

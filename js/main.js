@@ -1,15 +1,26 @@
-var studentId = 1;
-var memberId = 12;
+var memberId;
+var myselfId;
+var mateId;
 
 document.addEventListener("DOMContentLoaded", function() {
-    //init();
+    init();
+    updateProfiles();
 	bindEvents();
 });
 
 function init() {
-    var parameter = getUrlparameter(location.href);
-    studentId = parameter.id;
+    var parameter = getUrlparameter();
     memberId = parameter.memberId;
+    myselfId = parameter.id;
+    mateId = parameter.mateId;
+}
+
+function updateProfiles() {
+    requestStudents(function(students) {
+        updateProfile(getStudent(students, myselfId), "#myself");
+        updateProfile(getStudent(students, mateId), "#mate");
+        setVisibility(".profilesContainer", true);
+    });
 }
 
 function bindEvents() {
@@ -19,6 +30,33 @@ function bindEvents() {
 
     document.querySelector("#disagree").addEventListener('click', function() {
         requestPollSubmit(false);
+    });
+}
+
+// 학생 찾기
+function getStudent(students, id) {
+    for(var i = 0; i < students.length; i++) {
+        var student = students[i];
+        if(student.id == id) return student;
+    }
+
+    return null;
+}
+
+// 프로필 갱신
+function updateProfile(student, selector) {
+    setVisibility(selector, student ? true : false);
+
+    if(!student) return;
+
+    document.querySelector(selector + " .profileImage").setAttribute("src", "images/avatar/avatar" + fillZero(student.avatarId) + ".png");
+    document.querySelector(selector + " .name").innerHTML = student.name;
+    document.querySelector(selector + " .statusMessage").innerHTML = student.statusMessage;
+}
+
+function requestStudents(callback) {
+    request("/student?memberId=" + memberId, function(students) {
+        callback(students);
     });
 }
 
@@ -39,18 +77,15 @@ function request(url, callback) {
 	xhr.send();
 }
 
-function getUrlparameter(url) {
-    var result = {};
-    var part = parameterPart();
-    var parameter = part.split("&");
-    for(var i = 0; i < parameter.length; i++) {
-            var tokens = parameter[i].split("=");
-            if(tokens.length < 2) continue;
-            result[tokens[0]] = tokens[1];
-    }
-    return result;
-    function parameterPart() {
-            var tokens = url.split("?");
-            return tokens.length > 1 ? tokens[1] : "";
-    }
+function setVisibility(selector, visibility) {
+    document.querySelector(selector).style.visibility = visibility ? "visible" : "hidden";
+}
+
+function getUrlparameter() {
+    var search = location.search.substring(1);
+    return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+}
+
+function fillZero(number) {
+    return (number < 10 ? "0" : "") + number;
 }
