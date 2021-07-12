@@ -61,8 +61,8 @@ function requestStudents(callback) {
 }
 
 function requestPollSubmit(agree) {
-    request("/poll/submit?id=" + studentId + "&agree=" + agree + "&memberId=" + memberId, function(json) {
-        if(!json.success) console.log("설문이 종료되었거나 이미 설문에 참여했습니다.");
+    request("/poll/submit?id=" + myselfId + "&agree=" + agree + "&memberId=" + memberId, function(json) {
+        if(!json.success) alert("설문이 종료되었거나 이미 설문에 참여했습니다.");
     });
 }
 
