@@ -660,8 +660,7 @@ function getUrlparameter(url) {
 }
 
 function getFilePath(urlPath) {
-    if(urlPath == "/") return "join.html";
-    else if(urlPath == "/game") return "yacht.html";
+    if(urlPath == "/") return "main.html";
     return urlPath.substr(1, urlPath.length - 1);
 }
 

@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function init() {
     var parameter = getUrlparameter();
-    memberId = parameter.memberId;
+    memberId = parameter.sid;
     myselfId = parameter.id;
-    mateId = parameter.mateId;
+    mateId = parameter.mid;
 }
 
 function updateProfiles() {
@@ -62,7 +62,7 @@ function requestStudents(callback) {
 
 function requestPollSubmit(agree) {
     request("/poll/submit?id=" + myselfId + "&agree=" + agree + "&memberId=" + memberId, function(json) {
-        if(!json.success) alert("설문이 종료되었거나 이미 설문에 참여했습니다.");
+        alert(json.success ? "설문이 제출되었습니다." : "설문이 종료되었거나 이미 설문에 참여했습니다.");
     });
 }
 
